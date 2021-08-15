@@ -1,15 +1,20 @@
 package com.example.convertrgbtogray;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
@@ -20,7 +25,7 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity {
     Button btn;
     ImageView iv;
-
+    String Color ;
     //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
     Bitmap bitmap;
@@ -34,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         btn=(Button)findViewById(R.id.button5);
         iv=(ImageView)findViewById(R.id.imageView);
 
+        Color = String.valueOf(btn.getText());
+
+
+
+
         if(!Python.isStarted())
             Python.start(new AndroidPlatform(this));
 
@@ -46,13 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 bitmap=drawable.getBitmap();
                 imageString=getStringImage(bitmap);
 
+
                 //imageString we get encoded iamge string
                 //pass this string in python script
 
                 //call .py file
-                PyObject pyo=py.getModule("myscript");
+                PyObject pyo=py.getModule("lips");
                 //call module in .py file
-                PyObject obj=pyo.callAttr("main",imageString);
+                PyObject obj=pyo.callAttr("main",imageString,Color);
                 //return value
                 String str=obj.toString();
 

@@ -20,7 +20,7 @@ def creatorBox(img, points, scale = 2, masked = False, cropped = True):
         imgCrop = cv2.resize(imgCrop, (0, 0), None ,scale, scale)
         return imgCrop
     else:
-         return mask
+        return mask
 
 def main(data,color):
     decoded_data = base64.b64decode(data)
